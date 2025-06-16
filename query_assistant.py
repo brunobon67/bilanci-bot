@@ -2,13 +2,19 @@ from openai import OpenAI
 
 client = OpenAI()
 
-# 👉 Usa lo stesso Assistant ID
+# Assistant ID corretto
 ASSISTANT_ID = "asst_40N1uMyEll4eIkcq8hJSCvtT"
 
-# Fai la domanda in modo moderno usando Responses API
 response = client.chat.completions.create(
     model="gpt-4o",
-    tools=[{"type": "file_search"}],
+    tools=[
+        {
+            "type": "file_search",
+            "file_search": {
+                "assistant_id": ASSISTANT_ID
+            }
+        }
+    ],
     tool_choice="auto",
     messages=[
         {
@@ -23,3 +29,4 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message)
+
