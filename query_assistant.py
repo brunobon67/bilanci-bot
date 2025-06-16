@@ -2,16 +2,18 @@ from openai import OpenAI
 
 client = OpenAI()
 
-# Assistant ID corretto
 ASSISTANT_ID = "asst_40N1uMyEll4eIkcq8hJSCvtT"
 
 response = client.chat.completions.create(
     model="gpt-4o",
     tools=[
         {
-            "type": "file_search",
-            "file_search": {
-                "assistant_id": ASSISTANT_ID
+            "type": "function",
+            "function": {
+                "name": "file_search",
+                "parameters": {
+                    "assistant_id": ASSISTANT_ID
+                }
             }
         }
     ],
@@ -19,7 +21,7 @@ response = client.chat.completions.create(
     messages=[
         {
             "role": "system",
-            "content": "Sei un assistente esperto di bilanci. Rispondi solo usando i file caricati."
+            "content": "Sei un assistente finanziario. Rispondi usando SOLO i file del bilancio che ho caricato. Se non trovi l'informazione, di' che non la sai."
         },
         {
             "role": "user",
@@ -29,4 +31,3 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message)
-
