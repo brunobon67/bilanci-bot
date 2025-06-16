@@ -4,23 +4,12 @@ client = OpenAI()
 
 ASSISTANT_ID = "asst_40N1uMyEll4eIkcq8hJSCvtT"
 
-response = client.chat.completions.create(
+# 1️⃣ Crea una risposta usando Responses API, NON chat.completions
+response = client.beta.responses.create(
+    assistant_id=ASSISTANT_ID,
     model="gpt-4o",
-    tools=[
-        {
-            "type": "file_search",
-            "file_search": {
-                "assistant_id": ASSISTANT_ID
-            }
-        }
-    ],
-    messages=[
-        {
-            "role": "user",
-            "content": "Qual è il fatturato di ENI nel 2023?"
-        }
-    ]
+    instructions="Sei un assistente finanziario, rispondi solo usando i file caricati.",
+    input="Qual è il fatturato di ENI nel 2023?"
 )
 
-print(response.choices[0].message)
-
+print(response)
