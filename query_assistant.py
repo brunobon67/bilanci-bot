@@ -1,41 +1,25 @@
 from openai import OpenAI
-import time
-
-# 👉 Sostituisci con l'ID del tuo Assistant
-ASSISTANT_ID = "asst_40N1uMyEll4eIkcq8hJSCvtT"
 
 client = OpenAI()
 
-# Crea un thread di conversazione
-thread = client.beta.threads.create()
+# 👉 Usa lo stesso Assistant ID
+ASSISTANT_ID = "asst_40N1uMyEll4eIkcq8hJSCvtT"
 
-# Domanda di prova
-query = "Qual è il fatturato di ENI nel 2023?"
-
-# Aggiungi messaggio utente
-client.beta.threads.messages.create(
-    thread_id=thread.id,
-    role="user",
-    content=query,
+# Fai la domanda in modo moderno usando Responses API
+response = client.chat.completions.create(
+    model="gpt-4o",
+    tools=[{"type": "file_search"}],
+    tool_choice="auto",
+    messages=[
+        {
+            "role": "system",
+            "content": "Sei un assistente esperto di bilanci. Rispondi solo usando i file caricati."
+        },
+        {
+            "role": "user",
+            "content": "Qual è il fatturato di ENI nel 2023?"
+        }
+    ]
 )
 
-# Avvia la run
-run = client.beta.threads.runs.create(
-    thread_id=thread.id,
-    assistant_id=ASSISTANT_ID
-)
-
-# Aspetta completamento
-while True:
-    run_status = client.beta.threads.runs.retrieve(
-        thread_id=thread.id,
-        run_id=run.id
-    )
-    if run_status.status == "completed":
-        break
-    time.sleep(1)
-
-# Stampa la risposta
-messages = client.beta.threads.messages.list(thread_id=thread.id)
-for message in messages.data:
-    print(f"{message.role}: {message.content[0].text.value}")
+print(response.choices[0].message)
