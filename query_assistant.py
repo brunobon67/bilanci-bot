@@ -8,12 +8,9 @@ response = client.chat.completions.create(
     model="gpt-4o",
     tools=[
         {
-            "type": "function",
-            "function": {
-                "name": "file_search",
-                "parameters": {
-                    "assistant_id": ASSISTANT_ID
-                }
+            "type": "file_search",
+            "file_search": {
+                "assistant_id": ASSISTANT_ID
             }
         }
     ],
@@ -21,7 +18,7 @@ response = client.chat.completions.create(
     messages=[
         {
             "role": "system",
-            "content": "Sei un assistente finanziario esperto di bilanci. Rispondi solo usando i file caricati. Se non trovi l'informazione, di' che non la sai."
+            "content": "Sei un assistente esperto di bilanci. Rispondi solo usando i file caricati."
         },
         {
             "role": "user",
@@ -31,4 +28,3 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message)
-
