@@ -2,7 +2,7 @@ from openai import OpenAI
 import time
 
 # 👉 Sostituisci con l'ID del tuo Assistant
-ASSISTANT_ID = "QUI_METTI_IL_TUO_ASSISTANT_ID"
+ASSISTANT_ID = "asst_40N1uMyEll4eIkcq8hJSCvtT"
 
 client = OpenAI()
 
