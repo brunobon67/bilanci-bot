@@ -14,12 +14,7 @@ response = client.chat.completions.create(
             }
         }
     ],
-    tool_choice="auto",
     messages=[
-        {
-            "role": "system",
-            "content": "Sei un assistente esperto di bilanci. Rispondi solo usando i file caricati."
-        },
         {
             "role": "user",
             "content": "Qual è il fatturato di ENI nel 2023?"
@@ -28,3 +23,4 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message)
+
